@@ -6,9 +6,22 @@ import MainStyles from '../../MainStyles';
 
 export default function ListItem(props) {
     const { event } = props;
+
+    function resolveColor(event) {
+        const [day, month, year] = event.date.split('/');
+        const curDate = new Date();
+        const strDate = `${curDate.getFullYear().toString().padStart(4, '0')}${(curDate.getMonth() + 1).toString().padStart(2, '0')}${(curDate.getDate()).toString().padStart(2, '0')}`
+        const otherDate = `${year.padStart(4, '0')}${month.padStart(2, '0')}${day.padStart(2, '0')}`;
+        if (strDate > otherDate)
+            return { backgroundColor: '#CCC' };
+        if (event.type !== 'Aula')
+            return { backgroundColor: '#FFD300' };
+
+        return null;
+    }
     return (
         <View style={styles.content}>
-            <View style={styles.type}>
+            <View style={[styles.type, resolveColor(event)]}>
                 <Text style={styles.textType}>{event.type}</Text>
             </View>
             <View style={styles.header}>
